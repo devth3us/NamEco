@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>NesmEco - Gestão ESG</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/est.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+</head>
+<body class="corpo-pnl">
+
+    <nav class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2>Nesm<span>Eco</span></h2>
+        </div>
+        <ul class="menu">
+            <li><a href="#" class="ativo"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-file-import"></i> <span>Importar</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-bullseye"></i> <span>Metas</span></a></li>
+        </ul>
+        <a href="/sair" class="btn-sair"><i class="fa-solid fa-right-from-bracket"></i> <span>Sair</span></a>
+    </nav>
+
+    <main class="main-content">
+        <header>
+            <button id="btn-menu"><i class="fa-solid fa-bars"></i></button>
+            <h1>Painel Estratégico</h1>
+            <div class="usr-info">Olá, {{ nm_usr }}</div>
+        </header>
+
+        {% with msgs = get_flashed_messages() %}
+          {% if msgs %}
+            <div class="alerta" style="margin-bottom: 20px;">
+              {% for msg in msgs %} 
+                <p><i class="fa-solid fa-circle-info"></i> {{ msg }}</p> 
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <div class="grid-kpi">
+            <div class="kpi-card">
+                <p>Pegada Total</p>
+                <h2 id="txt-total">0 kg</h2>
+            </div>
+            <div class="kpi-card esc1">
+                <p>Escopo 1 (Diretas)</p>
+                <h2 id="txt-esc1">0 kg</h2>
+            </div>
+            <div class="kpi-card esc2">
+                <p>Escopo 2 (Energia)</p>
+                <h2 id="txt-esc2">0 kg</h2>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            
+            <div class="col-forms">
+                <div class="card glass">
+                    <h3><i class="fa-solid fa-plus"></i> Lançamento Mensal</h3>
+                    <form action="/add_reg" method="POST">
+                        <div class="inp-group">
+                            <label>Mês Referência (Ex: 2026-05)</label>
+                            <input type="month" name="dt_ref" required>
+                        </div>
+                        <div class="inp-group">
+                            <label>Energia (kWh)</label>
+                            <input type="number" step="0.01" name="cons_ee" required>
+                        </div>
+                        <div class="inp-group">
+                            <label>Combustível (L)</label>
+                            <input type="number" step="0.01" name="comb_lt" required>
+                        </div>
+                        <div class="inp-group">
+                            <label>Resíduos (Kg)</label>
+                            <input type="number" step="0.01" name="res_kg" required>
+                        </div>
+                        <button type="submit" class="btn-salvar">Salvar Registro</button>
+                    </form>
+                </div>
+
+                <div class="card glass" style="margin-top: 20px;">
+                    <h3><i class="fa-solid fa-file-excel"></i> Importação em Massa</h3>
+                    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">
+                        Selecione uma planilha .xlsx configurada no padrão NesmEco para importar o histórico.
+                    </p>
+                    <form action="/importar" method="POST" enctype="multipart/form-data">
+                        <div class="inp-group">
+                            <input type="file" name="planilha" accept=".xlsx, .xls" required style="padding: 5px; border: none; background: none; color: #f1f5f9; font-size: 13px;">
+                        </div>
+                        <button type="submit" class="btn-salvar" style="background-color: var(--sec);">
+                            Processar Planilha
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card glass">
+                <h3><i class="fa-solid fa-chart-line"></i> Evolução e Escopos</h3>
+                <div class="graf-row">
+                    <div class="container-graf"><canvas id="grafLinha"></canvas></div>
+                    <div class="container-graf small"><canvas id="grafRosca"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card glass mt-20">
+            <h3><i class="fa-solid fa-table"></i> Histórico de Dados Brutos</h3>
+            <table id="tabDados" class="display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Mês de Ref.</th>
+                        <th>Energia (kWh)</th>
+                        <th>Combustível (L)</th>
+                        <th>Resíduos (Kg)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in historico %}
+                    <tr>
+                        <td>{{ r.dt_ref }}</td>
+                        <td>{{ r.cons_ee }}</td>
+                        <td>{{ r.comb_lt }}</td>
+                        <td>{{ r.res_kg }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/pnl.js') }}"></script>
+</body>
+</html>

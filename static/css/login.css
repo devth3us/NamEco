@@ -1,0 +1,110 @@
+:root {
+    --cor-pri: #059669;   /* Verde Esmeralda */
+    --cor-sec: #0284C7;   /* Azul Oceano */
+    --cor-bg:  #F8FAFC;   /* Fundo Clean */
+    --cor-txt: #0F172A;   /* Texto principal */
+    --cor-card: #FFFFFF;  /* Fundo dos blocos/cards */
+}
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.bg-login {
+    background-color: var(--cor-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: var(--cor-txt);
+}
+
+.box-login {
+    background-color: var(--cor-card);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 400px;
+}
+
+.box-login h2 {
+    text-align: center;
+    margin-bottom: 8px;
+    font-size: 24px;
+}
+
+
+.box-login h2 span {
+    color: var(--cor-pri);
+}
+
+.box-login p {
+    text-align: center;
+    font-size: 14px;
+    color: #64748B;
+    margin-bottom: 24px;
+}
+
+.campo {
+    margin-bottom: 16px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.campo input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+    transition: border 0.3s;
+}
+
+.campo input:focus {
+    border-color: var(--cor-pri);
+}
+
+.btn-pri {
+    width: 100%;
+    background-color: var(--cor-pri);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    margin-top: 10px;
+}
+
+.btn-pri:hover {
+    background-color: #047857; 
+}
+
+.btn-pri:active {
+    transform: scale(0.98); /* Efeito de clique */
+}
+
+.alerta {
+    background-color: #FEE2E2;
+    color: #B91C1C;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid #FCA5A5;
+}
